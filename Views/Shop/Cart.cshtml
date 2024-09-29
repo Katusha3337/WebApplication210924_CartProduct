@@ -1,0 +1,13 @@
+﻿@model Cart
+
+<h1>Корзина</h1>
+@foreach (var item in Model.Items)
+{
+    <div>
+        <span>@item.Product.Name</span>
+        <span>Количество: @item.Quantity</span>
+        <span>Цена: @item.Product.Price * @item.Quantity</span>
+    </div>
+}
+<h2>Итоговая цена: @Model.TotalPrice</h2>
+<a href="/Shop/Checkout">Оформить заказ</a>

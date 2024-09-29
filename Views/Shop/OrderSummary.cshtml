@@ -1,0 +1,14 @@
+﻿<h1>Итоговая информация</h1>
+<p>ФИО: @ViewBag.Name</p>
+<p>Номер телефона: @ViewBag.Phone</p>
+<p>Адрес: @ViewBag.Address</p>
+<h2>Товары:</h2>
+@foreach (var item in ViewBag.Cart.Items)
+{
+    <div>
+        <span>@item.Product.Name</span>
+        <span>Количество: @item.Quantity</span>
+        <span>Цена: @item.Product.Price * @item.Quantity</span>
+    </div>
+}
+<h2>Итоговая цена: @ViewBag.Cart.TotalPrice</h2>

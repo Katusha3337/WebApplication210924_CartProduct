@@ -1,0 +1,47 @@
+﻿@model List<Product>
+
+<h1>Список товаров</h1>
+<div id="cartCount">Товаров в корзине: 0</div>
+@foreach (var product in Model)
+{
+    <div>
+        <span>@product.Name</span>
+        <span>Цена: @product.Price</span>
+        <form onsubmit="addToCart(event, @product.Id)">
+            <button type="submit">Добавить в корзину</button>
+        </form>
+    </div>
+}
+<a href="/Shop/Cart">Перейти в корзину</a>
+
+<script>
+    async function addToCart(event, productId) {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('id', productId);
+
+        const response = await fetch('/Shop/AddToCart', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            document.getElementById('cartCount').textContent = `Товаров в корзине: ${data.itemCount}`;
+        } else {
+            console.error('Ошибка при добавлении товара в корзину');
+        }
+    }
+
+    async function updateCartCount() {
+        const response = await fetch('/Shop/GetCartItemCount');
+        if (response.ok) {
+            const itemCount = await response.json();
+            document.getElementById('cartCount').textContent = `Товаров в корзине: ${itemCount}`;
+        } else {
+            console.error('Ошибка при обновлении количества товаров в корзине');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', updateCartCount);
+</script>
